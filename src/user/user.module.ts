@@ -4,17 +4,16 @@ import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { AuthService } from './auth.service';
 import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
+import { JwtModule } from '@nestjs/jwt';
+import { secret } from '../utils/constants';
+
 
 @Module({
-  imports:[TypeOrmModule.forFeature([User])],
-  providers: [UserService,AuthService,CurrentUserInterceptor,
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: CurrentUserInterceptor,
-    }
+  imports:[TypeOrmModule.forFeature([User])
   ],
-  controllers: [UserController]
+  providers: [UserService],
+  controllers: [UserController],
+  exports:[UserService]
 })
 export class UserModule {}

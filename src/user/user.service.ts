@@ -57,7 +57,7 @@ export class UserService {
         if (!id) {
           return null;
         }
-        const result = await this.usersRepository.findOne({ where: { id: id } });
+        const result = await this.usersRepository.findOneBy({ id:id });
         return result;
       }
 

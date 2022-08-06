@@ -1,21 +1,19 @@
-import { Body, Controller, Delete, Get,HttpStatus, Param, Patch, Post, Session, UseGuards} from '@nestjs/common';
+import { Body, Controller, Delete, Get,HttpStatus, Param, Patch, Post, Res, Session, UseGuards} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { SignInUserDto } from './dto/sign-in.dto';
 import { UserDto } from './dto/user.dto';
-import { AuthService } from './auth.service';
 import { Serialize } from 'src/interceptors/serialise.interceptors';
 import { AuthGuard } from '../guards/auth.guard';
 import { User } from './user.entity';
 import { CurrentUser } from './decorators/current-user.decorator';
+import { JwtService } from '@nestjs/jwt';
 
 //to return only bid,name,email
 @Serialize(UserDto)
 @Controller('user')
 export class UserController {
 
-    constructor(private readonly userService:UserService,
-      private authService: AuthService,){
+    constructor(private readonly userService:UserService){
     }
 
   @Post('/signout')
@@ -23,29 +21,27 @@ export class UserController {
     session.userId = null;
   }
 
-  @Get('/whoami')
-  @UseGuards(AuthGuard)
-  whoAmI(@CurrentUser() user: User) {
-    return user;
-  }
+  // @Get('/whoami')
+  // @UseGuards(AuthGuard)
+  // whoAmI(@CurrentUser() user: User) {
+  //   return user;
+  // }
 
-  @Post('/signup')
-  async createUser(@Body() body: CreateUserDto, @Session() session: any) {
-    const user = await this.authService.signup(body);
-    console.log(session)
-    session.userId = user.id;
-    return user;
-  }
+  // @Post('/signup')
+  // async createUser(@Res() response, @Body() body: CreateUserDto) {
+  //   const newUser = await this.authService.signup(body);
+  //   return response.status(HttpStatus.CREATED).json({
+  //     newUser
+  // })
+  // }
 
-  @Post('/signin')
-  async signin(@Body() body: SignInUserDto, @Session() session: any) {
-    const user = await this.authService.signin(body);
-    session.userId = user.id;
-    return user;
-  }
+  // @Post('/signin')
+  // async signin(@Res() response, @Body() body: SignInUserDto) {
+  //   const token = await this.authService.signin(body,this.jwtService);
+  //   return response.status(HttpStatus.OK).json(token);
+  // }
 
   //admin controllers
-
   @Get('/admin/email')
   async getUserByEmail(@Body('email') email:string){
       const result = await this.userService.findByEmail(email)
@@ -62,11 +58,7 @@ export class UserController {
   async readUser(@Param('id') id: number) {
       console.log(id)
       const data =  await this.userService.findOneById(id);
-      return {
-        statusCode: HttpStatus.OK,
-        message: 'User fetched successfully',
-        data,
-      };
+      return data;
   }
 
   // @Post('admin')
