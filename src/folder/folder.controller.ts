@@ -10,7 +10,6 @@ export class FolderController {
     constructor(private readonly folderService:FolderService){}
 
     @Post('/uploadFile')
-    @UseGuards(AuthGuard)
     @UseInterceptors(FileInterceptor('file', multerOptions))
     async uploadToDepartmentOne( @UploadedFile() file) {
         this.folderService.copyFileTest(file)
