@@ -14,6 +14,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { secret } from './utils/constants';
 import { AuthService } from './service/auth-user.service';
 import { AuthUserController } from './controller/auth-user.controller';
+import { AllFiles } from './folder/all-files.model';
 
 @Module({
   imports: [UserModule,
@@ -24,7 +25,7 @@ import { AuthUserController } from './controller/auth-user.controller';
       username: 'root',
       password: 'root',
       database: 'test',
-      entities: [User,PageCount],
+      entities: [User,PageCount,AllFiles],
       synchronize: true,
     }),
     JwtModule.register({

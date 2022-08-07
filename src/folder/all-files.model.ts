@@ -6,13 +6,16 @@ export class AllFiles {
   id: number;
 
   @Column()
-  name: string;
+  filename: string;
 
-  @Column({type:'blob'})
-  data:Buffer;
+  @Column({type:'blob',default:null})
+  data:Buffer | null;
 
   @Column()
   path:string;
+
+  @Column()
+  pages:number;
 
   @Column({
     nullable: false,

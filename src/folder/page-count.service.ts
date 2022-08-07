@@ -20,14 +20,10 @@ export class PageCountService {
         console.log(`pages in ${filePath} : ${data.numpages}`);
         let page = data.numpages;
         return page;
-        console.log(pages);
       });
-      console.log("pages",pages)
-      console.log("hi")
 
-      console.log(pages,filePath)
       this.createPageRecord(pages,filePath);
-    //   return pages
+      return pages;
     }
 
     async getTotalPageCount(){
