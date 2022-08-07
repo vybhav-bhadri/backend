@@ -17,7 +17,7 @@ export class FolderController {
     @UseInterceptors(FileInterceptor('file', multerOptions))
     async upload( @Res() response,@UploadedFile() file) {
         let result = await this.checkFile(file.originalname)
-        console.log(result)
+
         if(!result){
             this.folderService.copyFileTest(file)
             console.log("created file",file)
@@ -27,7 +27,7 @@ export class FolderController {
         }
 
         return response.status(HttpStatus.BAD_REQUEST).json({
-            message:"file already exits"
+            message:"file name already exits, rename the file"
         })   
     }
 
