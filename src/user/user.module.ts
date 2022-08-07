@@ -5,8 +5,7 @@ import { UserController } from './user.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
-import { JwtModule } from '@nestjs/jwt';
-import { secret } from '../utils/constants';
+
 
 
 @Module({

@@ -1,13 +1,15 @@
-import { Controller, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FolderService } from './folder.service';
 import { multerOptions } from './file.upload';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { PageCountService } from './page-count.service';
 
 @Controller('folder')
 export class FolderController {
 
-    constructor(private readonly folderService:FolderService){}
+    constructor(private readonly folderService:FolderService,
+        private readonly pageCountService:PageCountService){}
 
     @Post('/uploadFile')
     @UseInterceptors(FileInterceptor('file', multerOptions))
@@ -19,6 +21,12 @@ export class FolderController {
     @Post('/createFolder')
     createFolder(){
         
+    }
+
+    @Get('/totalPageCount')
+    async getTotalPageCount(){
+        const result = await this.pageCountService.getTotalPageCount()
+        return result;
     }
 
     // @Post('/department2')

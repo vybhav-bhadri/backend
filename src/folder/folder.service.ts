@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import * as fs from 'fs'
 import * as path from 'path'
+import { PageCountService } from './page-count.service';
 
 @Injectable()
 export class FolderService {
+
+    constructor(private readonly pageCountService:PageCountService){}
     copyFileTest(file:any){
         let filename = file.originalname;
         let src = path.join('D:\\vybhav\\harddisk', filename);
@@ -31,5 +34,8 @@ export class FolderService {
         
           readStream.pipe(fs.createWriteStream(dest));
         }
+
+        this.pageCountService.countPageInPdf(src)
       }
+
 }

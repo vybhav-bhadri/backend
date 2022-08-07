@@ -6,7 +6,6 @@ import { Serialize } from 'src/interceptors/serialise.interceptors';
 import { AuthGuard } from '../guards/auth.guard';
 import { User } from './user.entity';
 import { CurrentUser } from './decorators/current-user.decorator';
-import { JwtService } from '@nestjs/jwt';
 
 //to return only bid,name,email
 @Serialize(UserDto)

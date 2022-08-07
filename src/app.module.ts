@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user/user.entity';
+import { PageCount } from './folder/page-count.model';
 import { FolderModule } from './folder/folder.module';
 import { RequestMethod, MiddlewareConsumer } from '@nestjs/common';
 import { isAuthenticated } from './app.middleware';
@@ -23,22 +24,22 @@ import { AuthUserController } from './controller/auth-user.controller';
       username: 'root',
       password: 'root',
       database: 'test',
-      entities: [User],
+      entities: [User,PageCount],
       synchronize: true,
     }),
     JwtModule.register({
       secret:secret,
-      signOptions: { expiresIn: '60' },
+      signOptions: { expiresIn: '1d' },
     }),
     FolderModule],
   controllers: [AppController,AuthUserController],
   providers: [AppService,AuthService],
 })
 export class AppModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(isAuthenticated)
-      .exclude({ path: '/auth/signin', method: RequestMethod.POST })
-      .forRoutes(UserController);
-  }
+  // configure(consumer: MiddlewareConsumer) {
+  //   consumer
+  //     .apply(isAuthenticated)
+  //     .exclude({ path: '/auth/signin', method: RequestMethod.POST })
+  //     .forRoutes(UserController);
+  // }
 }
